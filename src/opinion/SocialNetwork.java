@@ -17,13 +17,21 @@ public class SocialNetwork implements ISocialNetwork {
     private int nbMembers;
     private LinkedList<Members> members;
 
-    // Constructor
+    /**
+     * Social network constructor
+     * Init Members linked list and nbMembers variable to 0
+     */
     public SocialNetwork() {
         members = new LinkedList<>();
         nbMembers = 0;
     }
 
     //Instance method
+
+    /**
+     * Getter for nbMembers attribute
+     * @return number of members
+     */
     @Override
     public int nbMembers() {
         return nbMembers;
@@ -41,6 +49,25 @@ public class SocialNetwork implements ISocialNetwork {
         return 0;
     }
 
+    @Override
+    /**
+     * Implement addMembers method for SocialNetwork
+     * First, iterate over all member list and check if the login argument match with an existing member in the list (areYou(l) method of Members).
+     * Non-case sensitive match + white spaces ignored
+     * Second, add the member to the list (Members constructor constraint and exceptions applies...)
+     * Increment nbMembers variable.
+     */
+    public void addMember(String login, String password, String profile)
+            throws BadEntryException, MemberAlreadyExistsException {
+        for (Members m : members) {
+            if (m.areYou(login)) {
+                throw new MemberAlreadyExistsException();
+            }
+            ;
+        }
+        members.add(new Members(login, password, profile));
+        nbMembers++;
+    }
 
     @Override
     public void addItemFilm(String login, String password, String title,
@@ -81,6 +108,25 @@ public class SocialNetwork implements ISocialNetwork {
         return new LinkedList<String>();
     }
 
+    @Override
+    /**
+     * New toString method to display all members in the social network
+     * Iterate over the Members linkedlist and use StringBuilder to concatenate return of the Member toString method
+     * Add an extra carrier return for better display
+     * Specific message if the member list is empty.
+     */
+    public String toString() {
+        if (!members.isEmpty()) {
+            StringBuilder temp = new StringBuilder();
+            for (Members m : members) {
+                temp.append(m.toString());
+                temp.append("\n");
+            }
+            return temp.toString();
+        } else {
+            return "Pas d'utilisateurs inscrits";
+        }
+    }
 
     /**
      * @param args
