@@ -1,5 +1,7 @@
 package tests;
 
+import exceptions.ItemBookAlreadyExistsException;
+import exceptions.NotMemberException;
 import exceptions.BadEntryException;
 import exceptions.NotTestReportException;
 import opinion.ISocialNetwork;
@@ -57,6 +59,7 @@ public class AddItemBookTest {
 		try {
 			sn.addItemBook(login, pwd, title, kind, author, nbPages);
 			if (sn.nbBooks() != nbBook + 1) {
+                System.out.println(errorMessage);
 				System.out.println("Err " + testId + " : the number of Books (" + nbBook + ") was not incremented"); // Error message displayed
 				return 1; // return error code
 			} else return 0; // return success code : everything is OK, nothing to
@@ -69,6 +72,48 @@ public class AddItemBookTest {
 			return 1; // return error code
 		}
 	}
+
+    private static int addBookNotMemberTest(ISocialNetwork sn, String login, String pwd, String title, String kind, String author, int nbPages, String testId) {
+        int nbBook = sn.nbBooks();
+        try {
+            sn.addItemBook(login, pwd, title, kind, author, nbPages);
+
+            System.out.println("NotMemberTest was not thrown");
+            return 1;
+        } catch (NotMemberException e) {
+            if (nbBook != sn.nbBooks()) {
+                System.out.println("NotMemberTest exception thrown but number of book increased");
+                return 1;
+            } else {
+                return 0;
+            }
+        } catch (Exception e) {
+            System.out.println("Err " + testId + " : unexpected exception. " + e); // Display a specific error message
+            System.out.println(e.getMessage()); // Display contextual info about what happened
+            return 1; // return error value
+        }
+    }
+
+    private static int addBookAlreadyExistTest(ISocialNetwork sn, String login, String pwd, String title, String kind, String author, int nbPages, String testId){
+        int nbBook = sn.nbBooks();
+        try {
+            sn.addItemBook(login, pwd, title, kind, author, nbPages);
+
+            System.out.println("BookAlreadyExistTest was not thrown");
+            return 1;
+        } catch (ItemBookAlreadyExistsException e) {
+            if (nbBook != sn.nbBooks()) {
+                System.out.println("ItemBookAlreadyExistsException exception thrown but number of book increased");
+                return 1;
+            } else {
+                return 0;
+            }
+        } catch (Exception e) {
+            System.out.println("Err " + testId + " : unexpected exception. " + e); // Display a specific error message
+            System.out.println(e.getMessage()); // Display contextual info about what happened
+            return 1; // return error value
+        }
+    }
 
 	public static TestReport test() {
 
@@ -96,40 +141,23 @@ public class AddItemBookTest {
 		// check if incorrect parameters cause addMember() to throw BadEntry
 		// exception
 
-		nbTests++;
-		nbErrors += addItemBookNominal(sn, "toto", "toto1234", "Livre 1", "Horreur", "John Wick", 12, "1.1", "Unable for an user to add a book");
-		//        nbTests++;
-		//        nbErrors += addMemberBadEntryTest(sn, " ", "qsdfgh", "", "1.2", "addMember() doesn't reject logins that don't contain at least one character other than space");
-		//        nbTests++;
-		//        nbErrors += addMemberBadEntryTest(sn, "B", null, "", "1.3", "addMember() doesn't reject null passwords");
-		//        nbTests++;
-		//        nbErrors += addMemberBadEntryTest(sn, "B", "   qwd ", "", "1.4", "addMember() doesn't reject passwords that don't contain at least 4 characters (not taking into account leading or trailing blanks)");
-		//        nbTests++;
-		//        nbErrors += addMemberBadEntryTest(sn, "BBBB", "bbbb", null, "1.5", "addMember() doesn't reject null profiles");
+        nbTests++;
+        nbErrors += addItemBookNominal(sn, "toto", "toto1234", "Livre 1", "Horreur", "John Wick", 12, "1.1", "Unable for an user to add a book");
 
-		//        // <=> test n°2
-		//
-		//        // populate 'sn' with 3 members
-		//
-		//        nbTests++;
-		//        nbErrors += addMemberOKTest(sn, "Paul", "paul", "lecteur impulsif", "2.1a");
-		//        nbTests++;
-		//        nbErrors += addMemberOKTest(sn, "Antoine", "antoine", "grand amoureux de la littérature", "2.1b");
-		//        nbTests++;
-		//        nbErrors += addMemberOKTest(sn, "Alice", "alice", "passionnée de bande dessinée", "2.1c");
-		//
-		//        // try to add already registered members
-		//
-		//        nbTests++;
-		//        nbErrors += addMemberAlreadyExistsTest(sn, new String("Paul"), "abcdefghij", "", "2.2", "The login of the first member was accepted as login for a new member");
-		//        nbTests++;
-		//        nbErrors += addMemberAlreadyExistsTest(sn, new String("Alice"), "abcdefghij", "", "2.3", "The login of the last member was accepted as login for a new member");
-		//        nbTests++;
-		//        nbErrors += addMemberAlreadyExistsTest(sn, new String("anToine"), "abcdefghij", "", "2.4", "An already registered login, but with different case, was accepted as login for a new member");
-		//        nbTests++;
-		//        nbErrors += addMemberAlreadyExistsTest(sn, new String(" Antoine "), "abcdefghij", "", "2.5", "An already registered login, surrounded by leading/trailing blanks, was accepted as login for a new member");
-		//        nbTests++;
-		//        nbErrors += addMemberAlreadyExistsTest(sn, "An" + "toi" + "ne", "abcdefghij", "", "2.6", "A String concatenation building an already registered login was accepted as login for a new member");
+        // <=> test n°2
+        // Check if incorrect parameters cause addBookItem() to throw NotMemberTest exception
+
+        // Test to add a book with a wrong member password
+        nbTests++;
+        nbErrors += addBookNotMemberTest(sn, "toto", "totodondojn", "Livre 2", "Fiction", "John Wick", 12, "2.1");
+        // Test to add a book with an unknown member
+        nbTests++;
+        nbErrors += addBookNotMemberTest(sn, "tata", "toto1234", "Livre 2", "Fiction", "John Wick", 12, "2.2");
+
+        // <=> test n°3
+        // Check for adding book while already existing
+        nbTests++;
+        nbErrors += addBookAlreadyExistTest(sn, "toto", "toto1234", "Livre 1", "Horreur", "John Wick", 12, "3.1");
 
 		nbTests++;
 		if (nbFilms != sn.nbFilms()) {
@@ -177,6 +205,12 @@ public class AddItemBookTest {
         nbTests++;
         nbErrors += addItemBookBadEntryTest(sn, "toto", "toto1234", "Notre Dame de Paris", "Horror", "Victor Hugo", -478, "2.9",
                 "addItemBok() doesn't reject null logins");
+
+        nbTests++;
+        if (nbFilms != sn.nbFilms()) {
+            System.out.println("Error : the number of books was unexepectedly changed by addMember()");
+            nbErrors++;
+        }
 
 		// Display final state of 'sn'
 		System.out.println("Final state of the social network : " + sn);
