@@ -62,7 +62,13 @@ public class Members {
         return this.profile;
     }
 
-    public boolean login(String login, String password) {
+    public boolean login(String login, String password) throws BadEntryException{
+    	if (login == null || login.replace(" ", "").isEmpty()) {
+            throw new BadEntryException("Format du login incorrect. Format: plus de 1 caractère (espaces non compris)");
+        }
+        if (password == null || password.replace(" ", "").length() < 4) {
+            throw new BadEntryException("Format du mot de passe incorrect. Format: plus de 4 caractères (espaces non compris)");
+        }
         return login.equals(this.login) && password.equals(this.password);
     }
 
