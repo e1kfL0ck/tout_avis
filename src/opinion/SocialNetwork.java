@@ -86,8 +86,10 @@ public class SocialNetwork implements ISocialNetwork {
     public void addItemBook(String login, String password, String title,
                             String kind, String author, int nbPages) throws BadEntryException,
             NotMemberException, ItemBookAlreadyExistsException {
+        boolean found = false;
         for (Members m : members) {
             if (m.areYou(login)) {
+                found = true;
                 if (!m.login(login, password)) {
                     throw new NotMemberException("Mot de passe incorrect");
                 }
@@ -98,8 +100,13 @@ public class SocialNetwork implements ISocialNetwork {
                 }
                 items.add(new Book(title, kind, author, nbPages, m.getLogin()));
                 nbBooks++;
+                break;
             }
         }
+        if (!found) {
+            throw new NotMemberException("Membre non trouvé");
+        }
+        ;
 
     }
 
