@@ -1,7 +1,6 @@
 package opinion;
 
 import exceptions.BadEntryException;
-
 public class Members {
     // Class attribute
     private String login;
@@ -61,6 +60,10 @@ public class Members {
      */
     public String getProfile() {
         return this.profile;
+    }
+
+    public boolean login(String login, String password) {
+        return login.equals(this.login) && password.equals(this.password);
     }
 
     /**
