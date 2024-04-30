@@ -1,0 +1,10 @@
+stages:
+  - build
+  - test
+
+check_formatting:
+  stage: build
+  image: openjdk:latest
+  script:
+    - apt-get update && apt-get install -y maven
+    - mvn spotless:check
