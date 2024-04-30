@@ -1,6 +1,7 @@
 package opinion;
 
 import exceptions.BadEntryException;
+
 public class Members {
     // Class attribute
     private String login;
@@ -13,6 +14,7 @@ public class Members {
      * - login: At least 1 caracter (white space not included)
      * - password: At least 4 caracters (white space not included)
      * - login, password, profile: must be defined
+     *
      * @param login
      * @param password
      * @param profile
@@ -38,6 +40,7 @@ public class Members {
 
     /**
      * Getter for login attribute
+     *
      * @return member login
      */
     public String getLogin() {
@@ -46,16 +49,18 @@ public class Members {
 
     /**
      * Make a non-case sensitive comparaison within the current object login field and the argument
+     *
      * @param l
      * @return true if login matches, false if not
      */
-    public boolean areYou(String l){
+    public boolean areYou(String l) {
         // Remove trailing white spaces + make a non-case sensitive string comparison with the current object login field.
         return l.replace(" ", "").equalsIgnoreCase(this.getLogin());
     }
 
     /**
      * Getter for profile arttribute
+     *
      * @return profile description
      */
     public String getProfile() {
@@ -74,6 +79,7 @@ public class Members {
 
     /**
      * New toString method for members
+     *
      * @return String representative of the member (username and profile description)
      */
     public String toString() {
