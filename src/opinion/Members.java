@@ -53,8 +53,11 @@ public class Members {
      * @param l
      * @return true if login matches, false if not
      */
-    public boolean areYou(String l) {
+    public boolean areYou(String l) throws BadEntryException {
         // Remove trailing white spaces + make a non-case sensitive string comparison with the current object login field.
+        if (l == null || l.replace(" ", "").isEmpty()) {
+            throw new BadEntryException("Format du login incorrect. Format: plus de 1 caractère (espaces non compris)");
+        }
         return l.replace(" ", "").equalsIgnoreCase(this.getLogin());
     }
 
@@ -67,8 +70,8 @@ public class Members {
         return this.profile;
     }
 
-    public boolean login(String login, String password) throws BadEntryException{
-    	if (login == null || login.replace(" ", "").isEmpty()) {
+    public boolean login(String login, String password) throws BadEntryException {
+        if (login == null || login.replace(" ", "").isEmpty()) {
             throw new BadEntryException("Format du login incorrect. Format: plus de 1 caractère (espaces non compris)");
         }
         if (password == null || password.replace(" ", "").length() < 4) {
