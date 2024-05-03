@@ -94,7 +94,7 @@ public class SocialNetwork implements ISocialNetwork {
                     throw new NotMemberException("Mot de passe incorrect");
                 }
                 for (Item i : items) {
-                    if (i instanceof Book && (i.title.equals(title))) {
+                    if (i.areYou(Book.class, title)) {
                         throw new ItemBookAlreadyExistsException();
                     }
                 }

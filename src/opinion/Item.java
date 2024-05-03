@@ -22,6 +22,13 @@ public class Item {
     }
 
     // Instance method
+    public boolean areYou(Class<?> c, String title) {
+        if (title == null || c == null) {
+            return false;
+        }
+        return (c.isInstance(this) && title.equals(this.title));
+    }
+
     @Override
     public String toString() {
         String temp;
