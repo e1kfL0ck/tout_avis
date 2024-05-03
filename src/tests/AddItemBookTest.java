@@ -7,9 +7,28 @@ import exceptions.NotTestReportException;
 import opinion.ISocialNetwork;
 import opinion.SocialNetwork;
 
-
+/**
+ * This class contains test cases for the addItemBook() method in the ISocialNetwork interface.
+ * 
+ * @author T. Roux, E. Quivron
+ * @version V1.0 - May 2024
+ */
 public class AddItemBookTest {
 
+    /**
+     * Tests the behavior of the addItemBook() method when given incorrect parameters.
+     *
+     * @param sn           The social network instance.
+     * @param login        The login of the user.
+     * @param pwd          The password of the user.
+     * @param title        The title of the book.
+     * @param kind         The kind of the book.
+     * @param author       The author of the book.
+     * @param nbPages      The number of pages in the book.
+     * @param testId       The ID of the test.
+     * @param errorMessage The error message to display if the test fails.
+     * @return 1 if the test fails, 0 otherwise.
+     */    
     private static int addItemBookBadEntryTest(ISocialNetwork sn, String login,
                                                String pwd, String title, String kind, String author, int nbPages, String testId, String errorMessage) {
 
@@ -54,6 +73,20 @@ public class AddItemBookTest {
         }
     }
 
+    /**
+     * Tests the behavior of the addItemBook() method with nominal parameters.
+     *
+     * @param sn           The social network instance.
+     * @param login        The login of the user.
+     * @param pwd          The password of the user.
+     * @param title        The title of the book.
+     * @param kind         The kind of the book.
+     * @param author       The author of the book.
+     * @param nbPages      The number of pages in the book.
+     * @param testId       The ID of the test.
+     * @param errorMessage The error message to display if the test fails.
+     * @return 1 if the test fails, 0 otherwise.
+     */
     private static int addItemBookNominal(ISocialNetwork sn, String login, String pwd, String title, String kind, String author, int nbPages, String testId, String errorMessage) {
         int nbBook = sn.nbBooks(); //Number of Book when the method started
         try {
@@ -73,6 +106,19 @@ public class AddItemBookTest {
         }
     }
 
+    /**
+     * Tests the behavior of the addItemBook() method when the user is not a member.
+     *
+     * @param sn           The social network instance.
+     * @param login        The login of the user.
+     * @param pwd          The password of the user.
+     * @param title        The title of the book.
+     * @param kind         The kind of the book.
+     * @param author       The author of the book.
+     * @param nbPages      The number of pages in the book.
+     * @param testId       The ID of the test.
+     * @return 1 if the test fails, 0 otherwise.
+     */
     private static int addBookNotMemberTest(ISocialNetwork sn, String login, String pwd, String title, String kind, String author, int nbPages, String testId) {
         int nbBook = sn.nbBooks();
         try {
@@ -94,6 +140,19 @@ public class AddItemBookTest {
         }
     }
 
+    /**
+     * Tests the behavior of the addItemBook() method when the book already exists.
+     *
+     * @param sn           The social network instance.
+     * @param login        The login of the user.
+     * @param pwd          The password of the user.
+     * @param title        The title of the book.
+     * @param kind         The kind of the book.
+     * @param author       The author of the book.
+     * @param nbPages      The number of pages in the book.
+     * @param testId       The ID of the test.
+     * @return 1 if the test fails, 0 otherwise.
+     */
     private static int addBookAlreadyExistTest(ISocialNetwork sn, String login, String pwd, String title, String kind, String author, int nbPages, String testId) {
         int nbBook = sn.nbBooks();
         try {
@@ -115,6 +174,12 @@ public class AddItemBookTest {
         }
     }
 
+    
+    /**
+     * Executes a series of tests on the social network system and returns a test report.
+     *
+     * @return A TestReport object containing the number of tests performed and the number of errors encountered.
+     */
     public static TestReport test() {
 
         ISocialNetwork sn = new SocialNetwork();
@@ -165,44 +230,44 @@ public class AddItemBookTest {
             nbErrors++;
         }
 
-        // <=> test n°1
+        // <=> test n°4
 
         // check if incorrect parameters cause addItemBook() to throw BadEntry
         // exception
 
         nbTests++;
-        nbErrors += addItemBookBadEntryTest(sn, null, "passwd", "Notre Dame de Paris", "Horror", "Victor Hugo", 478, "1.1", "addItemBok() doesn't reject null logins");
+        nbErrors += addItemBookBadEntryTest(sn, null, "passwd", "Notre Dame de Paris", "Horror", "Victor Hugo", 478, "4.1", "addItemBok() doesn't reject null logins");
 
         nbTests++;
-        nbErrors += addItemBookBadEntryTest(sn, " ", "passwd", "Notre Dame de Paris", "Horror", "Victor Hugo", 478, "2.2",
+        nbErrors += addItemBookBadEntryTest(sn, " ", "passwd", "Notre Dame de Paris", "Horror", "Victor Hugo", 478, "4.2",
                 "addItemBook() doesn't reject logins that don't contain at least one character other than space");
 
         nbTests++;
-        nbErrors += addItemBookBadEntryTest(sn, "toto", null, "Notre Dame de Paris", "Horror", "Victor Hugo", 478, "2.3",
+        nbErrors += addItemBookBadEntryTest(sn, "toto", null, "Notre Dame de Paris", "Horror", "Victor Hugo", 478, "4.3",
                 "addItemBook() doesn't reject null passwords");
 
         nbTests++;
-        nbErrors += addItemBookBadEntryTest(sn, "toto", "pas   ", "Notre Dame de Paris", "Horror", "Victor Hugo", 478, "2.4",
+        nbErrors += addItemBookBadEntryTest(sn, "toto", "pas   ", "Notre Dame de Paris", "Horror", "Victor Hugo", 478, "4.4",
                 "addItemBook() doesn't reject passwords that don't contain at least 4 characters (not taking into account leading or trailing blanks)");
 
         nbTests++;
-        nbErrors += addItemBookBadEntryTest(sn, "toto", "toto1234", null, "Horror", "Victor Hugo", 478, "2.5",
+        nbErrors += addItemBookBadEntryTest(sn, "toto", "toto1234", null, "Horror", "Victor Hugo", 478, "4.5",
                 "addItemBook() doesn't reject null titles");
 
         nbTests++;
-        nbErrors += addItemBookBadEntryTest(sn, "toto", "toto1234", " ", "Horror", "Victor Hugo", 478, "2.6",
+        nbErrors += addItemBookBadEntryTest(sn, "toto", "toto1234", " ", "Horror", "Victor Hugo", 478, "4.6",
                 "addItemBook() doesn't reject titles that are smaller than one character");
 
         nbTests++;
-        nbErrors += addItemBookBadEntryTest(sn, "toto", "toto1234", "Notre Dame de Paris", null, "Victor Hugo", 478, "2.7",
+        nbErrors += addItemBookBadEntryTest(sn, "toto", "toto1234", "Notre Dame de Paris", null, "Victor Hugo", 478, "4.7",
                 "addItemBok() doesn't reject null kind");
 
         nbTests++;
-        nbErrors += addItemBookBadEntryTest(sn, "toto", "toto1234", "Notre Dame de Paris", "Horror", null, 478, "2.8",
+        nbErrors += addItemBookBadEntryTest(sn, "toto", "toto1234", "Notre Dame de Paris", "Horror", null, 478, "4.8",
                 "addItemBok() doesn't reject null author");
 
         nbTests++;
-        nbErrors += addItemBookBadEntryTest(sn, "toto", "toto1234", "Notre Dame de Paris", "Horror", "Victor Hugo", -478, "2.9",
+        nbErrors += addItemBookBadEntryTest(sn, "toto", "toto1234", "Notre Dame de Paris", "Horror", "Victor Hugo", -478, "4.9",
                 "addItemBok() doesn't reject null logins");
 
         nbTests++;
