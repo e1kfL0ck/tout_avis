@@ -236,7 +236,7 @@ public class AddItemBookTest {
         // exception
 
         nbTests++;
-        nbErrors += addItemBookBadEntryTest(sn, null, "passwd", "Notre Dame de Paris", "Horror", "Victor Hugo", 478, "4.1", "addItemBok() doesn't reject null logins");
+        nbErrors += addItemBookBadEntryTest(sn, null, "passwd", "Notre Dame de Paris", "Horror", "Victor Hugo", 478, "4.1", "addItemBook() doesn't reject null logins");
 
         nbTests++;
         nbErrors += addItemBookBadEntryTest(sn, " ", "passwd", "Notre Dame de Paris", "Horror", "Victor Hugo", 478, "4.2",
@@ -260,15 +260,15 @@ public class AddItemBookTest {
 
         nbTests++;
         nbErrors += addItemBookBadEntryTest(sn, "toto", "toto1234", "Notre Dame de Paris", null, "Victor Hugo", 478, "4.7",
-                "addItemBok() doesn't reject null kind");
+                "addItemBook() doesn't reject null kind");
 
         nbTests++;
         nbErrors += addItemBookBadEntryTest(sn, "toto", "toto1234", "Notre Dame de Paris", "Horror", null, 478, "4.8",
-                "addItemBok() doesn't reject null author");
+                "addItemBook() doesn't reject null author");
 
         nbTests++;
         nbErrors += addItemBookBadEntryTest(sn, "toto", "toto1234", "Notre Dame de Paris", "Horror", "Victor Hugo", -478, "4.9",
-                "addItemBok() doesn't reject null logins");
+                "addItemBook() doesn't reject null logins");
 
         nbTests++;
         if (nbFilms != sn.nbFilms()) {
@@ -282,7 +282,7 @@ public class AddItemBookTest {
         // Print a summary of the tests and return test results
         try {
             TestReport tr = new TestReport(nbTests, nbErrors);
-            System.out.println("AddMemberTest : " + tr);
+            System.out.println("addItemBook : " + tr);
             return tr;
         } catch (NotTestReportException e) { //This shouldn't happen
             System.out.println("Unexpected error in AddMemberTest test code - Can't return valuable test results");
