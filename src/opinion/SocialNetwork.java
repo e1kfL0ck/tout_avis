@@ -14,7 +14,6 @@ import exceptions.NotMemberException;
  */
 public class SocialNetwork implements ISocialNetwork {
     // Class attribute
-    private int nbMembers;
     private int nbBooks;
     private LinkedList<Members> members;
     private LinkedList<Item> items;
@@ -26,7 +25,6 @@ public class SocialNetwork implements ISocialNetwork {
     public SocialNetwork() {
         members = new LinkedList<>();
         items = new LinkedList<>();
-        nbMembers = 0;
     }
 
     //Instance method
@@ -38,7 +36,7 @@ public class SocialNetwork implements ISocialNetwork {
      */
     @Override
     public int nbMembers() {
-        return nbMembers;
+        return members.size();
     }
 
     @Override
@@ -76,7 +74,6 @@ public class SocialNetwork implements ISocialNetwork {
             ;
         }
         members.add(new Members(login, password, profile));
-        nbMembers++;
     }
 
     @Override
@@ -171,26 +168,26 @@ public class SocialNetwork implements ISocialNetwork {
     @Override
     public String toString() {
         if (!members.isEmpty()) {
-            StringBuilder temp = new StringBuilder();
-            temp.append("\n------------------------------ Users ------------------------\n");
+            StringBuilder concatenedString = new StringBuilder();
+            concatenedString.append("\n------------------------------ Users ------------------------\n");
             for (Members m : members) {
-                temp.append(m.toString());
-                temp.append("\n");
+                concatenedString.append(m.toString());
+                concatenedString.append("\n");
             }
-            temp.append("Nombre utilisateurs: ").append(nbMembers).append("\n");
-            temp.append("-------------------- Books --------------------------\n");
+            concatenedString.append("Nombre utilisateurs: ").append(nbMembers()).append("\n");
+            concatenedString.append("-------------------- Books --------------------------\n");
             if (!items.isEmpty()) {
                 for (Item i : items) {
                     if (i instanceof Book) {
-                        temp.append(i);
-                        temp.append("\n");
+                        concatenedString.append(i);
+                        concatenedString.append("\n");
                     }
                 }
-                temp.append("Nombre livres: ").append(nbBooks);
+                concatenedString.append("Nombre livres: ").append(nbBooks);
             } else {
-                temp.append("Pas de livres inscrits");
+                concatenedString.append("Pas de livres inscrits");
             }
-            return temp.toString();
+            return concatenedString.toString();
         } else {
             return "Pas d'utilisateurs inscrits";
         }
