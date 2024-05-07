@@ -4,12 +4,13 @@ import exceptions.ItemBookAlreadyExistsException;
 import exceptions.NotMemberException;
 import exceptions.BadEntryException;
 import exceptions.NotTestReportException;
+import opinion.Book;
 import opinion.ISocialNetwork;
 import opinion.SocialNetwork;
 
 /**
  * This class contains test cases for the addItemBook() method in the ISocialNetwork interface.
- * 
+ *
  * @author T. Roux, E. Quivron
  * @version V1.0 - May 2024
  */
@@ -28,7 +29,7 @@ public class AddItemBookTest {
      * @param testId       The ID of the test.
      * @param errorMessage The error message to display if the test fails.
      * @return 1 if the test fails, 0 otherwise.
-     */    
+     */
     private static int addItemBookBadEntryTest(ISocialNetwork sn, String login,
                                                String pwd, String title, String kind, String author, int nbPages, String testId, String errorMessage) {
 
@@ -109,14 +110,14 @@ public class AddItemBookTest {
     /**
      * Tests the behavior of the addItemBook() method when the user is not a member.
      *
-     * @param sn           The social network instance.
-     * @param login        The login of the user.
-     * @param pwd          The password of the user.
-     * @param title        The title of the book.
-     * @param kind         The kind of the book.
-     * @param author       The author of the book.
-     * @param nbPages      The number of pages in the book.
-     * @param testId       The ID of the test.
+     * @param sn      The social network instance.
+     * @param login   The login of the user.
+     * @param pwd     The password of the user.
+     * @param title   The title of the book.
+     * @param kind    The kind of the book.
+     * @param author  The author of the book.
+     * @param nbPages The number of pages in the book.
+     * @param testId  The ID of the test.
      * @return 1 if the test fails, 0 otherwise.
      */
     private static int addBookNotMemberTest(ISocialNetwork sn, String login, String pwd, String title, String kind, String author, int nbPages, String testId) {
@@ -143,14 +144,14 @@ public class AddItemBookTest {
     /**
      * Tests the behavior of the addItemBook() method when the book already exists.
      *
-     * @param sn           The social network instance.
-     * @param login        The login of the user.
-     * @param pwd          The password of the user.
-     * @param title        The title of the book.
-     * @param kind         The kind of the book.
-     * @param author       The author of the book.
-     * @param nbPages      The number of pages in the book.
-     * @param testId       The ID of the test.
+     * @param sn      The social network instance.
+     * @param login   The login of the user.
+     * @param pwd     The password of the user.
+     * @param title   The title of the book.
+     * @param kind    The kind of the book.
+     * @param author  The author of the book.
+     * @param nbPages The number of pages in the book.
+     * @param testId  The ID of the test.
      * @return 1 if the test fails, 0 otherwise.
      */
     private static int addBookAlreadyExistTest(ISocialNetwork sn, String login, String pwd, String title, String kind, String author, int nbPages, String testId) {
@@ -174,7 +175,36 @@ public class AddItemBookTest {
         }
     }
 
-    
+    /**
+     * Tests the behavior of the areYou() method.
+     *
+     * @param title   The title of the book.
+     * @param kind    The kind of the book.
+     * @param author  The author of the book.
+     * @param nbPages The number of pages in the book.
+     * @param addedBy The name of the user adding the book.
+     * @param testId  The ID of the test.
+     * @return 1 if the test fails, 0 otherwise.
+     */
+    private static int areYouTest(String title, String kind, String author, int nbPages, String addedBy, String testId) {
+        try {
+            Book testBook = new Book(title, kind, author, nbPages, addedBy);
+            // Does a book is a book ?
+            if (!testBook.areYou(Book.class, title)) {
+                return 1;
+            } // A book is not an exception...
+            else if (testBook.areYou(Exception.class, title)) {
+                return 1;
+            } else
+                return 0;
+        } catch (Exception e) {
+            System.out.println("Err " + testId + " : unexpected exception. " + e); // Display a specific error message
+            System.out.println(e.getMessage()); // Display contextual info about what happened
+            return 1; // return error value
+        }
+    }
+
+
     /**
      * Executes a series of tests on the social network system and returns a test report.
      *
@@ -269,6 +299,12 @@ public class AddItemBookTest {
         nbTests++;
         nbErrors += addItemBookBadEntryTest(sn, "toto", "toto1234", "Notre Dame de Paris", "Horror", "Victor Hugo", -478, "4.9",
                 "addItemBook() doesn't reject null logins");
+
+        // Test of Item areYou method.
+        // Will check if the areYou method return true if an item instance match the class type passed in argument + title
+        // Here check with the same title a Book class type and an Exception class type.
+        nbTests++;
+        nbErrors += areYouTest("Notre Dame de Paris", "Horror", "Victor Hugo", 478, "toto", "5.0");
 
         nbTests++;
         if (nbFilms != sn.nbFilms()) {
