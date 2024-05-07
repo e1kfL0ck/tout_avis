@@ -24,6 +24,9 @@ public class Item {
         if (kind == null) {
             throw new BadEntryException("La catégorie du média n'a pas été renseignée");
         }
+        if (addedBy == null){
+            throw new BadEntryException("L'auteur du post n'a pas été renseigné");
+        }
         this.title = title;
         this.kind = kind;
         this.addedBy = addedBy;
