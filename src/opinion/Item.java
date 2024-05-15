@@ -48,7 +48,7 @@ public class Item {
         if (title == null || c == null) {
             return false;
         }
-        return (c.isInstance(this) && title.equals(this.title));
+        return (c.isInstance(this) && title.equalsIgnoreCase(this.title));
     }
 
     /**
