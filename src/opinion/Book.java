@@ -38,8 +38,21 @@ public class Book extends Item {
      */
     @Override
     public String toString() {
-        String temp;
-        temp = "Titre du livre: " + this.title + ", Catégorie: " + this.kind + ", Auteur: " + this.author + ", Nombre de page: " + this.nbPages + ", Ajouté par: " + this.addedBy;
-        return temp;
+        StringBuilder concatenedString = new StringBuilder();
+        concatenedString.append("Titre du livre: ");
+        concatenedString.append(this.title);
+        concatenedString.append(", Catégorie: ");
+        concatenedString.append(this.kind);
+        concatenedString.append(", Auteur: ");
+        concatenedString.append(this.author);
+        concatenedString.append(", Nombre de page: ");
+        concatenedString.append(this.nbPages);
+        if (!Float.isNaN(getMeanMark())) {
+            concatenedString.append(", Note (Moyenne): ");
+            concatenedString.append(getMeanMark());
+        }
+        concatenedString.append(", Ajouté par: ");
+        concatenedString.append(this.addedBy);
+        return concatenedString.toString();
     }
 }
