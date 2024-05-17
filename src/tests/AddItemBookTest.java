@@ -124,7 +124,6 @@ public class AddItemBookTest {
         int nbBook = sn.nbBooks();
         try {
             sn.addItemBook(login, pwd, title, kind, author, nbPages);
-
             System.out.println("NotMemberTest was not thrown");
             return 1;
         } catch (NotMemberException e) {
