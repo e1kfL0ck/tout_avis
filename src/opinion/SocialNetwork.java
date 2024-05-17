@@ -252,7 +252,7 @@ public class SocialNetwork implements ISocialNetwork {
                         concatenedString.append("\n-----------------------------------------------------------------------------------------\n");
                     }
                 }
-                concatenedString.append("Nombre livres: ").append(nbBooks);
+                concatenedString.append("Nombre(s) livre(s): ").append(nbBooks);
             } else {
                 concatenedString.append("Pas de livres inscrits");
             }
