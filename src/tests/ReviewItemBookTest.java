@@ -221,14 +221,6 @@ public class ReviewItemBookTest {
         nbTests++;
         nbErrors += ReviewItemBookTestNominal(sn, "emile", "emile1234", "Tintin au Tibet", "Pas trop aimé !", 2.1F, defaultMean, "1.3", "User is unable to post his first review on an existing book");
 
-        defaultMean = (4.9F+4.9F)/2;
-        nbTests++;
-        nbErrors += ReviewItemBookTestNominal(sn, "emile", "emile1234", "Tintin au Tibet", "Finalement j'aime bien", 4.9F, defaultMean, "1.4", "User is unable to post his second review on an existing book");
-
-        defaultMean = 3.0F;
-        nbTests++;
-        nbErrors += ReviewItemBookTestNominal(sn, "toto", "toto1234", "Tintin au Congo", "Bof finalement !", 3.0F, defaultMean, "1.5", "User is unable to post his second review on an existing book");
-
         nbTests++;
         if (nbFilms != sn.nbFilms()) {
             System.out.println("Error : the number of books was unexepectedly changed by ReviewItemBook()");
@@ -240,7 +232,7 @@ public class ReviewItemBookTest {
         // <=> test n°2
         // Check if incorrect parameters cause addReview() to throw NotMemberException
 
-        defaultMean = (4.9F+4.9F)/2.0F;
+        defaultMean = (4.9F+2.1F)/2.0F;
         // Test to add a review with a wrong member password
         nbTests++;
         nbErrors += ReviewNotMemberTest(sn, "toto", "totodondojn", "Tintin au Tibet", 3.2F, "Très bon livre", defaultMean, "2.1", "The user is able to post a review with a wrong password");
@@ -295,6 +287,17 @@ public class ReviewItemBookTest {
         //Test with null title
         nbTests++;
         nbErrors += ReviewBookNotItemTest(sn, "toto", "toto1234", null, 3.2F, "Très bon livre", defaultMean, "4.3", "The user is able to post a review with a null title");
+
+
+        // <=> test n°5
+        // Check if incorrect newer reviews replaces the older ones
+        defaultMean = (4.9F+4.9F)/2;
+        nbTests++;
+        nbErrors += ReviewItemBookTestNominal(sn, "emile", "emile1234", "Tintin au Tibet", "Finalement j'aime bien", 4.9F, defaultMean, "5.1", "User is unable to post his second review on an existing book");
+
+        defaultMean = 3.0F;
+        nbTests++;
+        nbErrors += ReviewItemBookTestNominal(sn, "toto", "toto1234", "Tintin au Congo", "Bof finalement !", 3.0F, defaultMean, "5.2", "User is unable to post his second review on an existing book");
 
 
         // Display final state of 'sn'
