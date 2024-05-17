@@ -212,11 +212,11 @@ public class SocialNetwork implements ISocialNetwork {
     public LinkedList<String> consultItems(String title)
             throws BadEntryException {
         LinkedList<String> result = new LinkedList<>();
-        if (title == null || title.isEmpty()) {
+        if (title == null || title.replace(" ", "").isEmpty()) {
             throw new BadEntryException("Le titre ne peut pas être vide");
         }
         for (Item i : items) {
-            if (i.title.contains(title.toLowerCase())) {
+            if (i.title.toLowerCase().contains(title.toLowerCase())) {
                 result.add(i + "\n" + i.getReviews());
             }
         }
