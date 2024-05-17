@@ -1,14 +1,12 @@
 package tests;
 
-import java.util.LinkedList;
 import java.lang.Float;
 
 import exceptions.BadEntryException;
+import exceptions.NotItemException;
 import exceptions.NotMemberException;
 import exceptions.NotTestReportException;
-import opinion.Book;
 import opinion.ISocialNetwork;
-import opinion.Item;
 import opinion.SocialNetwork;
 
 public class ReviewItemBookTest {
@@ -132,12 +130,47 @@ public class ReviewItemBookTest {
         }
     }
 
+    private static int ReviewBookNotItemTest(ISocialNetwork sn, String login, String pwd, 
+    String title, float mark, String comment, Float defaultMean, String testId, String errorMessage) {
+        float mean; // Number of books when starting to
+        try {
+            mean = sn.reviewItemBook(login, pwd, title, mark, comment); // Try to add the review
+            // Reaching this point means that no exception was thrown
+            System.out.println("Err " + testId + " : " + errorMessage); // display the error message
+            return 1; // and return the "error" value
+        } catch (NotItemException e) { // BadEntry exception was thrown by
+            // reviewItemBook() : this is a good start!
+            // Let's now check if 'sn' was not impacted
+            try {
+                mean = sn.reviewItemBook("toto", "toto1234", "Tintin au Tibet", 4.9F, "Super BD !");
+                if (defaultMean==mean) {
+                    return 0; // Everything is fine : the mean was not changed
+                } else {
+                    // The mean just changed, which is not the expected behavior
+                    System.out.println("Err " + testId + " : NotItemException was thrown but the mean was changed");
+                    return 1;
+                }
+            } catch (Exception e2) {
+                System.out.println("Error during the mean check, verify the code." + e2); // Display a specific error message
+                return 1; // return error value
+            }
+        } catch (Exception e) { // An exception was thrown by addItemBook(), but
+            // it was not the expected exception BadEntry
+            System.out.println("Err " + testId + " : unexpected exception. "
+                    + e); // Display a specific error message
+            e.printStackTrace(); // Display contextual info about what happened
+            return 1; // return error value
+        }
+    }
+
     public static TestReport test() {
         ISocialNetwork sn = new SocialNetwork();
         int nbBook = sn.nbBooks();// number of book in 'sn' (should be 0
         // here)
         int nbFilms = sn.nbFilms(); // number of film in 'sn' (should be 0
         // here)
+
+        float defaultMean = 0;
 
         int nbTests = 0; // total number of performed tests
         int nbErrors = 0; // total number of failed tests
@@ -158,6 +191,7 @@ public class ReviewItemBookTest {
         // <=> test n1
         // Check nominal work of the method
 
+        defaultMean = 4.9F;
         nbTests++;
         nbErrors += ReviewItemBookTestNominal(sn, "toto", "toto1234", "Tintin au Tibet", "Super BD !", 4.9F, "1.1", "User is unable to post his first review on an existing book");
 
@@ -179,7 +213,7 @@ public class ReviewItemBookTest {
             nbErrors++;
         }
 
-        float defaultMean = (4.9F+4.9F)/2.0F;
+        
 
         // <=> test n°2
         // Check if incorrect parameters cause addReview() to throw NotMemberException
@@ -196,15 +230,38 @@ public class ReviewItemBookTest {
         // Check if incorrect parameters cause addReview() to throw BadEntryException
 
         //Test with null comment
+        nbTests++;
+        nbErrors += ReviewBookBadEntryTest(sn, "toto", "toto1234", "Tintin au Tibet", 3.2F, null, defaultMean, "3.1", "The user is able to post a review with an empty comment");
+
+        //Test with empty comment
+        nbTests++;
         nbErrors += ReviewBookBadEntryTest(sn, "toto", "toto1234", "Tintin au Tibet", 3.2F, "", defaultMean, "3.1", "The user is able to post a review with an empty comment");
 
         //Test with mark superior to 5
+        nbTests++;
         nbErrors += ReviewBookBadEntryTest(sn, "toto", "toto1234", "Tintin au Tibet", 10F, "Très bon livre", defaultMean, "3.2", "The user is able to post a review with a mark superior to 5");
 
         //Test with mark inferior to 0
+        nbTests++;
         nbErrors += ReviewBookBadEntryTest(sn, "toto", "toto1234", "Tintin au Tibet", -5f, "Très bon livre", defaultMean, "3.3", "The user is able to post a review with a mark inferior to 5");
 
-        
+
+        // <=> test n°4
+        // Check if incorrect titles cause addReview() to throw NotItemException
+
+        //Test with wrong title
+        nbTests++;
+        nbErrors += ReviewBookNotItemTest(sn, "toto", "toto1234", "Wrong Title", 3.2F, "Très bon livre", defaultMean, "4.1", "The user is able to post a review with a wrong title");
+
+        //Test with empty title
+        nbTests++;
+        nbErrors += ReviewBookNotItemTest(sn, "toto", "toto1234", "", 3.2F, "Très bon livre", defaultMean, "4.2", "The user is able to post a review with an empty title");
+
+        //Test with null title
+        nbTests++;
+        nbErrors += ReviewBookNotItemTest(sn, "toto", "toto1234", null, 3.2F, "Très bon livre", defaultMean, "4.3", "The user is able to post a review with a null title");
+
+
 
         // Display final state of 'sn'
         System.out.println("Final state of the social network : " + sn);
