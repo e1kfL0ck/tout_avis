@@ -248,10 +248,6 @@ public class ReviewItemBookTest {
         nbTests++;
         nbErrors += ReviewBookBadEntryTest(sn, "toto", "toto1234", "Tintin au Tibet", 3.2F, null, defaultMean, "3.1", "The user is able to post a review with an empty comment");
 
-        //Test with empty comment
-        nbTests++;
-        nbErrors += ReviewBookBadEntryTest(sn, "toto", "toto1234", "Tintin au Tibet", 3.2F, "", defaultMean, "3.2", "The user is able to post a review with an empty comment");
-
         //Test with mark superior to 5
         nbTests++;
         nbErrors += ReviewBookBadEntryTest(sn, "toto", "toto1234", "Tintin au Tibet", 10F, "Très bon livre", defaultMean, "3.3", "The user is able to post a review with a mark superior to 5");

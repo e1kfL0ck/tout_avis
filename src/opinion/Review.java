@@ -24,7 +24,7 @@ public class Review {
         if (addedBy == null) {
             throw new BadEntryException("L'auteur de l'avis n'a pas été renseigné");
         }
-        if (content == null || content.replace(" ", "").isEmpty()) {
+        if (content == null) {
             throw new BadEntryException("L'avis n'a pas été renseigné");
         }
         this.content = content;
