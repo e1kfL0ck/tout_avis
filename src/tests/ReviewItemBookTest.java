@@ -218,6 +218,7 @@ public class ReviewItemBookTest {
         // <=> test n°2
         // Check if incorrect parameters cause addReview() to throw NotMemberException
 
+        defaultMean = (4.9F+4.9F)/2.0F;
         // Test to add a review with a wrong member password
         nbTests++;
         nbErrors += ReviewNotMemberTest(sn, "toto", "totodondojn", "Tintin au Tibet", 3.2F, "Très bon livre", defaultMean, "2.1", "The user is able to post a review with a wrong password");
