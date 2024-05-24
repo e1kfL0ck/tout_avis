@@ -15,6 +15,7 @@ import exceptions.NotMemberException;
 public class SocialNetwork implements ISocialNetwork {
     // Class attribute
     private int nbBooks;
+    private int nbFilms;
     private LinkedList<Members> members;
     private LinkedList<Item> items;
 
@@ -42,7 +43,7 @@ public class SocialNetwork implements ISocialNetwork {
     @Override
     public int nbFilms() {
         // TODO Auto-generated method stub
-        return 0;
+        return this.nbFilms;
     }
 
     @Override
