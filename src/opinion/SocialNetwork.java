@@ -78,12 +78,16 @@ public class SocialNetwork implements ISocialNetwork {
     }
 
     @Override
-    public void addItemFilm(String login, String password, String title,
-                            String kind, String director, String scriptwriter, int duration)
-            throws BadEntryException, NotMemberException,
-            ItemFilmAlreadyExistsException {
-        // TODO Auto-generated method stub
-
+    public void addItemFilm(String login, String password, String title, String kind, String director, String scenarist, int duration) throws BadEntryException, NotMemberException, ItemFilmAlreadyExistsException {
+        Members loggedMember;
+        loggedMember = findAndLogin(login, password);
+        for (Item i : items) {
+            if (i.areYou(Film.class, title)) {
+                throw new ItemFilmAlreadyExistsException();
+            }
+        }
+        items.add(new Film(title, kind, director, scenarist, duration, loggedMember.getLogin()));
+        nbFilms++;
     }
 
     /**
@@ -157,7 +161,22 @@ public class SocialNetwork implements ISocialNetwork {
                                 float mark, String comment) throws BadEntryException,
             NotMemberException, NotItemException {
         // TODO Auto-generated method stub
-        return 0;
+        Members loggedMember;
+        loggedMember = findAndLogin(login, password);
+        boolean foundFilm = false;
+        float mean = 0;
+        for (Item i : items) {
+            if (i.areYou(Film.class, title)) {
+                foundFilm = true;
+                i.addReview(comment, mark, loggedMember.getLogin());
+                mean = i.getMeanMark();
+                break;
+            }
+        }
+        if (!foundFilm) {
+            throw new NotItemException("Le film n'a pas été trouvé");
+        }
+        return mean;
     }
 
     /**
@@ -254,6 +273,16 @@ public class SocialNetwork implements ISocialNetwork {
                     }
                 }
                 concatenedString.append("Nombre(s) livre(s): ").append(nbBooks);
+                concatenedString.append("\n-------------------- Films ----------------------------------------------------------------------------\n");
+                for (Item i : items) {
+                    if (i instanceof Film) {
+                        concatenedString.append(i);
+                        concatenedString.append(i.getReviews());
+                        concatenedString.append("\n-----------------------------------------------------------------------------------------\n");
+                    }
+                }
+                concatenedString.append("Nombre(s) livre(s): ").append(nbBooks);
+                concatenedString.append("\nNombre(s) film(s): ").append(nbFilms);
             } else {
                 concatenedString.append("Pas de livres inscrits");
             }
@@ -270,5 +299,4 @@ public class SocialNetwork implements ISocialNetwork {
         // TODO Auto-generated method stub
 
     }
-
 }
