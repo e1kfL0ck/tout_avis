@@ -21,6 +21,7 @@ public class ConsultItemBookTest {
      */
     private static int consultItemBookNominal(ISocialNetwork sn, String title, String mark, boolean present, String testId, String errorMessage) {
         int nbBook = sn.nbBooks(); //Number of Book when the method started
+        int nbFilms = sn.nbFilms();
         try {
             LinkedList<String> out = null;
             out = sn.consultItems(title);
@@ -29,18 +30,23 @@ public class ConsultItemBookTest {
                 System.out.println("Err " + testId + " : the number of Books (" + nbBook + ") was incremented"); // Error message displayed
                 return 1; // return error code
             }
+            if (sn.nbFilms() != nbFilms) {
+                System.out.println(errorMessage);
+                System.out.println("Err " + testId + " : the number of Books (" + nbFilms + ") was incremented"); // Error message displayed
+                return 1; // return error code
+            }
             if (present) {
                 for (String s : out) {
                     // Returned linked list must return the book title and the mark
                     if (!s.toLowerCase().contains(title.toLowerCase()) && !s.toLowerCase().contains(mark)) {
                         System.out.println(errorMessage);
-                        System.out.println("Le livre n'a pas été trouvé"); // Error message displayed
+                        System.out.println("Le livre/film n'a pas été trouvé"); // Error message displayed
                         return 1; // return error code
                     }
                 }
             } else if (!out.isEmpty()) {
                 System.out.println(errorMessage);
-                System.out.println("Un livre à été trouvé alors qu'il n'existe pas"); // Error message displayed
+                System.out.println("Un livre/film à été trouvé alors qu'il n'existe pas"); // Error message displayed
                 return 1; // return error code
             }
 
@@ -59,6 +65,7 @@ public class ConsultItemBookTest {
 
         int nbBooks = sn.nbBooks(); // Number of books when starting to
         // run this method
+        int nbFilms = sn.nbFilms();
         try {
             sn.consultItems(title); // Try to search for a book
             System.out.println("Err " + testId + " : " + errorMessage); // display
@@ -74,6 +81,15 @@ public class ConsultItemBookTest {
                 // changed : this is an error
                 // case.
                 System.out.println("Err " + testId + " : BadEntry was thrown but the number of book was changed"); // Display
+                // a
+                // specific
+                // error
+                // message
+                return 1; // return "error" value
+            } else if (sn.nbFilms() != nbFilms){
+                // changed : this is an error
+                // case.
+                System.out.println("Err " + testId + " : BadEntry was thrown but the number of films was changed"); // Display
                 // a
                 // specific
                 // error
@@ -104,52 +120,76 @@ public class ConsultItemBookTest {
         // Add multiple users and books
         float markBook1 = 0;
         float markBook2 = 0;
+        float markFilm1 = 0;
+        float markFilm2 = 0;
         try {
             sn.addMember("toto", "toto1234", "Ceci est le profil de Toto");
             sn.addMember("emile", "emile1234", "Ceci est le profil de Emile");
             sn.addItemBook("toto", "toto1234", "Tintin au Tibet", "BD", "Hergé", 53);
             sn.addItemBook("toto", "toto1234", "Blake et Mortimer", "BD", "Edgar P Jacob", 44);
+            sn.addItemFilm("toto", "toto1234", "Inception", "Action", "Christopher Nolan", "Christopher Nolan", 56);
+            sn.addItemFilm("emile", "emile1234", "Cars", "Dessin animé", "John Lasseter", "John Lasseter", 60);
             sn.reviewItemBook("toto", "toto1234", "Tintin au Tibet", 5, "Bien");
             markBook1 = sn.reviewItemBook("emile", "emile1234", "Tintin au Tibet", 4, "Cool");
 
             sn.reviewItemBook("toto", "toto1234", "Blake et Mortimer", 2, "Bien");
             markBook2 = sn.reviewItemBook("emile", "emile1234", "Blake et Mortimer", 3.5F, "Cool");
 
+            sn.reviewItemFilm("toto", "toto1234", "Inception", 5, "Génial");
+            markFilm1 = sn.reviewItemFilm("emile", "emile1234", "Inception", 4.9F, "J'adore");
+
+            sn.reviewItemFilm("toto", "toto1234", "Cars", 3, "Film de mon enfance");
+            markFilm2 = sn.reviewItemFilm("emile", "emile1234", "Cars", 4, "Je prefère Dora");
+
+
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
 
 
-        // <=> test n°1
+        // <=> test n°9
 
-        // Nominal case, check if we can found a book with different search and if the note is present in the returned info
-
-        nbTests++;
-        nbErrors += consultItemBookNominal(sn, "Tintin au Tibet", String.valueOf(markBook1), true, "6.1", "Impossible de trouver le livre");
+        // Nominal case, check if we can found a book/film with different search and if the note is present in the returned info
 
         nbTests++;
-        nbErrors += consultItemBookNominal(sn, "tintin", String.valueOf(markBook1), true, "6.2", "Impossible de trouver le livre");
+        nbErrors += consultItemBookNominal(sn, "Tintin au Tibet", String.valueOf(markBook1), true, "9.1", "Impossible de trouver le livre");
 
         nbTests++;
-        nbErrors += consultItemBookNominal(sn, "morti", String.valueOf(markBook2), true, "6.2", "Impossible de trouver le livre");
+        nbErrors += consultItemBookNominal(sn, "tintin", String.valueOf(markBook1), true, "9.2", "Impossible de trouver le livre");
 
         nbTests++;
-        nbErrors += consultItemBookNominal(sn, "Black", String.valueOf(markBook2), true, "6.3", "Impossible de trouver le livre");
+        nbErrors += consultItemBookNominal(sn, "Inception", String.valueOf(markFilm1), true, "9.3", "Impossible de trouver le film");
 
         nbTests++;
-        nbErrors += consultItemBookNominal(sn, "tata", null, false, "6.4", "Une recherche d'une livre qui n'exsite pas renvoie quelque chose");
+        nbErrors += consultItemBookNominal(sn, "incep", String.valueOf(markFilm1), true, "9.4", "Impossible de trouver le film");
 
         nbTests++;
-        nbErrors += consultItemBookNominal(sn, "jdn;idjn", null, false, "6.5", "Une recherche d'une livre qui n'exsite pas renvoie quelque chose");
+        nbErrors += consultItemBookNominal(sn, "morti", String.valueOf(markBook2), true, "9.5", "Impossible de trouver le livre");
+
+        nbTests++;
+        nbErrors += consultItemBookNominal(sn, "Black", String.valueOf(markBook2), true, "9.6", "Impossible de trouver le livre");
+
+        nbTests++;
+        nbErrors += consultItemBookNominal(sn, "cars", String.valueOf(markFilm2), true, "9.7", "Impossible de trouver le film");
+
+        nbTests++;
+        nbErrors += consultItemBookNominal(sn, "ca", String.valueOf(markFilm2), true, "9.9", "Impossible de trouver le film");
+
+        nbTests++;
+        nbErrors += consultItemBookNominal(sn, "tata", null, false, "9.10", "Une recherche d'une livre/film qui n'exsite pas renvoie quelque chose");
+
+        nbTests++;
+        nbErrors += consultItemBookNominal(sn, "jdn;idjn", null, false, "9.11", "Une recherche d'une livre/film qui n'exsite pas renvoie quelque chose");
 
         // Test n 2
         // Verify if an exception is raised in case of bad parameter
 
         nbTests++;
-        nbErrors += consultItemBookBadEntryTest(sn, "", "1.1", "Exception non levée");
+        nbErrors += consultItemBookBadEntryTest(sn, null, "10.1", "Exception non levée");
 
         nbTests++;
-        nbErrors += consultItemBookBadEntryTest(sn, "   ", "1.1", "Exception non levée");
+        nbErrors += consultItemBookBadEntryTest(sn, "   ", "10.2", "Exception non levée");
 
 
         // Display final state of 'sn'
