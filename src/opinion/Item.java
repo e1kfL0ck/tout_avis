@@ -72,16 +72,18 @@ public class Item {
     }
 
     /**
-     * Method to compute the mean of all marks leaved in review of the Item.
+     * Method to compute the mean of all marks leaved in review of the Item pondered with the user (that leaved the mark) karma.
      *
      * @return float
      */
     public float getMeanMark() {
         float result = 0;
+        float coeffSum = 0;
         for (Review r : reviews) {
-            result += r.mark;
+            result += r.mark * r.addedBy.getKarma();
+            coeffSum += r.addedBy.getKarma();
         }
-        return result / reviews.size();
+        return result / coeffSum;
     }
 
     /**
