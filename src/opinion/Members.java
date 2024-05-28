@@ -2,11 +2,17 @@ package opinion;
 
 import exceptions.BadEntryException;
 
+import java.lang.reflect.Member;
+
+import static java.lang.Math.abs;
+import static java.lang.Math.sqrt;
+
 public class Members {
     // Class attribute
     private String login;
     private String password;
     private String profile;
+    private float karma;
 
     /**
      * Member class constructor.
@@ -34,6 +40,7 @@ public class Members {
         this.login = login;
         this.password = password;
         this.profile = profile;
+        this.karma = 1; //All user got 1 as karma score
     }
 
     //Instance method
@@ -70,6 +77,37 @@ public class Members {
         return this.profile;
     }
 
+    /**
+     * Getter for the user karma
+     *
+     * @return user karma (float)
+     */
+    public float getKarma() {
+        return this.karma;
+    }
+
+    /**
+     * Method to update the user karma by multiplying the karma by a computed coefficient
+     * Computed coefficient with the delta between the mark given and the mean of the mark (2.5 for marks over 5) plus one.
+     * Square root is used to smooth the coefficent (logarithmic growth)
+     *
+     * @param mark
+     * @throws BadEntryException
+     */
+    public void updateKarma(float mark) throws BadEntryException {
+        if ((mark > 5.0) || mark < 0) {
+            throw new BadEntryException("La note doit être supérieure à 0 et inférieure ou égale à 5.0");
+        }
+        float delta = 1;
+        if (mark > 2.5) {
+            delta = (float) sqrt(mark - 2.5 + 1);
+        } else if (mark < 2.5) {
+            delta = (float) (1 / sqrt(abs(mark - 2.5) + 1));
+        }
+
+        this.karma *= delta;
+    }
+
     public boolean login(String login, String password) throws BadEntryException {
         if (login == null || login.replace(" ", "").isEmpty()) {
             throw new BadEntryException("Format du login incorrect. Format: plus de 1 caractère (espaces non compris)");
@@ -83,10 +121,10 @@ public class Members {
     /**
      * New toString method for members
      *
-     * @return String representative of the member (username and profile description)
+     * @return String representative of the member (username ,karma, and profile description)
      */
     public String toString() {
         // Custom toString method to show login and profile description of the object.
-        return "Nom utilisateur: " + getLogin() + ", Description du profil: " + getProfile();
+        return "Nom utilisateur: " + getLogin() + ", Description du profil: " + getProfile() + ", Karma: " + getKarma();
     }
 }
