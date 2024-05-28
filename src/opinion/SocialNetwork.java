@@ -15,6 +15,7 @@ import exceptions.NotMemberException;
 public class SocialNetwork implements ISocialNetwork {
     // Class attribute
     private int nbBooks;
+    private int nbFilms;
     private LinkedList<Members> members;
     private LinkedList<Item> items;
 
@@ -42,7 +43,7 @@ public class SocialNetwork implements ISocialNetwork {
     @Override
     public int nbFilms() {
         // TODO Auto-generated method stub
-        return 0;
+        return this.nbFilms;
     }
 
     @Override
@@ -76,13 +77,38 @@ public class SocialNetwork implements ISocialNetwork {
         members.add(new Members(login, password, profile));
     }
 
+    /**
+     * /**
+     * Add a new film to the social network
+     * <p>
+     * User must be logged to add a film, the method will use the findAndLogin method to authentiacate the user.
+     * When the user is logged, the method will iterate over the film list and check if the film does not already exist, if it is a ItemFilmAlreadyExistsException exception will be thrown.
+     * The film will be added in the "items" linked list, the username of the logged user will be used to fill the "addedBy" Book attribute.
+     * nbFilm attribute will be incremented.
+     * If no member is found with the provided attribute, a NotMemberException will be thrown.
+     *
+     * @param login     login of the member adding the film
+     * @param password  password of the member adding the film
+     * @param title     the new film's title
+     * @param kind      the new film's kind (adventure, thriller, etc.)
+     * @param director  the new film's director
+     * @param scenarist the new film's scenarist
+     * @param duration  the new film's duration (in minutes)
+     * @throws BadEntryException
+     * @throws NotMemberException
+     * @throws ItemFilmAlreadyExistsException
+     */
     @Override
-    public void addItemFilm(String login, String password, String title,
-                            String kind, String director, String scriptwriter, int duration)
-            throws BadEntryException, NotMemberException,
-            ItemFilmAlreadyExistsException {
-        // TODO Auto-generated method stub
-
+    public void addItemFilm(String login, String password, String title, String kind, String director, String scenarist, int duration) throws BadEntryException, NotMemberException, ItemFilmAlreadyExistsException {
+        Members loggedMember;
+        loggedMember = findAndLogin(login, password);
+        for (Item i : items) {
+            if (i.areYou(Film.class, title)) {
+                throw new ItemFilmAlreadyExistsException();
+            }
+        }
+        items.add(new Film(title, kind, director, scenarist, duration, loggedMember.getLogin()));
+        nbFilms++;
     }
 
     /**
@@ -151,12 +177,45 @@ public class SocialNetwork implements ISocialNetwork {
         return memberFound;
     }
 
+    /**
+     * Method to add a review to a Film
+     * User log in with the findAndLogin() method.
+     * Search for the film to review and use Item.addReview() method to add the review.
+     * A film not found will return a specific exception.
+     * Other exceptions applies for user not found, password incorrect etc...
+     * Will return the mean of all mark of the film;
+     *
+     * @param login    login of the member adding the review
+     * @param password password of the member adding the review
+     * @param title    the reviewed film's title
+     * @param mark     the mark given by the member for this film
+     * @param comment  the comment given by the member for this film
+     * @return
+     * @throws BadEntryException
+     * @throws NotMemberException
+     * @throws NotItemException
+     */
     @Override
     public float reviewItemFilm(String login, String password, String title,
                                 float mark, String comment) throws BadEntryException,
             NotMemberException, NotItemException {
         // TODO Auto-generated method stub
-        return 0;
+        Members loggedMember;
+        loggedMember = findAndLogin(login, password);
+        boolean foundFilm = false;
+        float mean = 0;
+        for (Item i : items) {
+            if (i.areYou(Film.class, title)) {
+                foundFilm = true;
+                i.addReview(comment, mark, loggedMember.getLogin());
+                mean = i.getMeanMark();
+                break;
+            }
+        }
+        if (!foundFilm) {
+            throw new NotItemException("Le film n'a pas été trouvé");
+        }
+        return mean;
     }
 
     /**
@@ -253,6 +312,16 @@ public class SocialNetwork implements ISocialNetwork {
                     }
                 }
                 concatenedString.append("Nombre(s) livre(s): ").append(nbBooks);
+                concatenedString.append("\n-------------------- Films ----------------------------------------------------------------------------\n");
+                for (Item i : items) {
+                    if (i instanceof Film) {
+                        concatenedString.append(i);
+                        concatenedString.append(i.getReviews());
+                        concatenedString.append("\n-----------------------------------------------------------------------------------------\n");
+                    }
+                }
+                concatenedString.append("Nombre(s) livre(s): ").append(nbBooks);
+                concatenedString.append("\nNombre(s) film(s): ").append(nbFilms);
             } else {
                 concatenedString.append("Pas de livres inscrits");
             }
@@ -269,5 +338,4 @@ public class SocialNetwork implements ISocialNetwork {
         // TODO Auto-generated method stub
 
     }
-
 }
