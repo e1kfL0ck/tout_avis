@@ -20,10 +20,11 @@ public class SocialNetworkPremium extends SocialNetwork implements ISocialNetwor
             throw new NotItemException("L'item spécifié n'existe pas");
         }
         Review foundReview = null;
+        float oldMark = 1;
         for (Review r : foundItem.reviews) {
             if (r.addedBy.getLogin().equals(reviewAuthor)) {
                 foundReview = r;
-                r.addFeedback(loggedMember.getLogin(), mark);
+                oldMark = r.addFeedback(loggedMember.getLogin(), mark);
                 break;
             }
         }
@@ -32,7 +33,7 @@ public class SocialNetworkPremium extends SocialNetwork implements ISocialNetwor
         }
         for (Members m : members) {
             if (m.areYou(foundReview.addedBy.getLogin())) {
-                m.updateKarma(mark);
+                m.updateKarma(mark, oldMark);
                 break;
             }
         }

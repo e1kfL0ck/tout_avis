@@ -86,6 +86,16 @@ public class Members {
         return this.karma;
     }
 
+    public float computeCoeff(float mark) {
+        float delta = 1;
+        if (mark > 2.5) {
+            delta = (float) sqrt(mark - 2.5 + 1);
+        } else if (mark < 2.5) {
+            delta = (float) (1 / sqrt(abs(mark - 2.5) + 1));
+        }
+        return delta;
+    }
+
     /**
      * Method to update the user karma by multiplying the karma by a computed coefficient
      * Computed coefficient with the delta between the mark given and the mean of the mark (2.5 for marks over 5) plus one.
@@ -94,23 +104,17 @@ public class Members {
      * @param mark
      * @throws BadEntryException
      */
-    public void updateKarma(float mark) throws BadEntryException {
+    public void updateKarma(float mark, float oldMark) throws BadEntryException {
         if ((mark > 5.0) || mark < 0) {
             throw new BadEntryException("La note doit être supérieure à 0 et inférieure ou égale à 5.0");
         }
-        float delta = 1;
-        if (mark > 2.5) {
-            delta = (float) sqrt(mark - 2.5 + 1);
-        } else if (mark < 2.5) {
-            delta = (float) (1 / sqrt(abs(mark - 2.5) + 1));
-        }
-
-        this.karma *= delta;
+        this.karma *= 1 / computeCoeff(oldMark);
+        this.karma *= computeCoeff(mark);
     }
 
     /**
      * Method to verify the login and password of the member
-     * 
+     *
      * @param login    login of the member adding the review
      * @param password password of the member adding the review
      */
