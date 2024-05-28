@@ -49,7 +49,7 @@ public class Review {
         }
         int index = 0;
         //Mean value of the possible mark, used if no feedback is found
-        //2.5 will create a coefficeint of 1, not impacting the karma
+        //2.5 will create a coefficeint of 1, not impacting the karma. This coeff computed in computedCoeff method of Members.
         float oldMark = 2.5f; 
         for (Feedback f : feedbacks) {
             if (f.addedBy.equals(addedBy)) {
@@ -72,9 +72,9 @@ public class Review {
         String temp = "";
         temp += "Contenu: " + this.content + ", Note: " + this.mark + ", Ajouté par: " + this.addedBy.getLogin();
         if (!feedbacks.isEmpty()) {
-            temp += ", Feedbacks: ";
+            temp += "\nFeedbacks: ";
             for (Feedback f : feedbacks) {
-                temp += f.toString() + ", ";
+                temp += "\n    "+ f.toString();
             }
         }
         return temp;

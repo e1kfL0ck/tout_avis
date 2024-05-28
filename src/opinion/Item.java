@@ -94,10 +94,13 @@ public class Item {
     public String getReviews() {
         StringBuilder concatenedString = new StringBuilder();
         concatenedString.append("\n------------------------------ Avis ------------------------\n");
+        int i = 1;
         if (!reviews.isEmpty()) {
             for (Review r : reviews) {
+                concatenedString.append("Avis ").append(i).append(": ");
                 concatenedString.append(r);
                 concatenedString.append("\n");
+                i++;
             }
         } else {
             concatenedString.append("Pas d'avis");
