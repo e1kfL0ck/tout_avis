@@ -22,4 +22,13 @@ public class Feedback {
         this.mark = mark;
     }
 
+    /**
+     * toString function for Feedback class, return a fromatted string containing all attrubutes of the class
+     *
+     * @return String
+     */
+    public String toString() {
+        return "Note: " + this.mark + ", Ajouté par: " + this.addedBy;
+    }
+
 }

@@ -59,7 +59,7 @@ public class Item {
      * @param addedBy
      * @throws BadEntryException
      */
-    public void addReview(String content, float mark, String addedBy) throws BadEntryException {
+    public void addReview(String content, float mark, Members addedBy) throws BadEntryException {
         int index = 0;
         boolean found = false;
         for (Review r : reviews) {

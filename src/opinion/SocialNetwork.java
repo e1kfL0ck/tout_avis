@@ -207,7 +207,7 @@ public class SocialNetwork implements ISocialNetwork {
         for (Item i : items) {
             if (i.areYou(Film.class, title)) {
                 foundFilm = true;
-                i.addReview(comment, mark, loggedMember.getLogin());
+                i.addReview(comment, mark, loggedMember);
                 mean = i.getMeanMark();
                 break;
             }
@@ -247,7 +247,7 @@ public class SocialNetwork implements ISocialNetwork {
         for (Item i : items) {
             if (i.areYou(Book.class, title)) {
                 foundBook = true;
-                i.addReview(comment, mark, loggedMember.getLogin());
+                i.addReview(comment, mark, loggedMember);
                 mean = i.getMeanMark();
                 break;
             }

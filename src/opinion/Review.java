@@ -7,7 +7,7 @@ public class Review {
     // Class attribute
     protected String content;
     protected float mark;
-    protected String addedBy;
+    protected Members addedBy;
     protected LinkedList<Feedback> feedbacks;
 
     /**
@@ -19,7 +19,7 @@ public class Review {
      * @param mark
      * @throws BadEntryException
      */
-    public Review(String content, String addedBy, float mark) throws BadEntryException {
+    public Review(String content, Members addedBy, float mark) throws BadEntryException {
         if ((mark > 5.0) || mark < 0) {
             throw new BadEntryException("La note doit être supérieure à 0 et inférieure ou égale à 5.0");
         }
@@ -41,7 +41,11 @@ public class Review {
      */
     public String toString() {
         String temp = "";
-        temp += "Contenu: " + this.content + ", Note: " + this.mark + ", Ajouté par: " + this.addedBy;
+        temp += "Contenu: " + this.content + ", Note: " + this.mark + ", Ajouté par: " + this.addedBy.getLogin();
+        temp += ", Feedbacks: ";
+        for (Feedback f : feedbacks) {
+            temp += f.toString() + ", ";
+        }
         return temp;
     }
 }
