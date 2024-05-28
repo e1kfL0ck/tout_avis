@@ -43,11 +43,22 @@ public class Review {
      * @param mark
      * @throws BadEntryException
      */
-    public void addFeedback(String addedBy, float mark) throws BadEntryException {
+    public float addFeedback(String addedBy, float mark) throws BadEntryException {
         if (addedBy == null) {
             throw new BadEntryException("Added by can't be null");
         }
-        this.feedbacks.add(new Feedback(addedBy, mark));
+        int index = 0;
+        float oldMark = 2.5f;
+        for (Feedback f : feedbacks) {
+            if (f.addedBy.equals(addedBy)) {
+                oldMark = f.mark;
+                feedbacks.set(index, new Feedback(addedBy, mark));
+                return oldMark; //Feedback replaced return oldMark
+            }
+            index++;
+        }
+        feedbacks.add(new Feedback(addedBy, mark));
+        return oldMark;
     }
 
     /**
