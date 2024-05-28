@@ -1,6 +1,7 @@
 package opinion;
 
 import exceptions.BadEntryException;
+
 import java.util.LinkedList;
 
 public class Review {
@@ -32,6 +33,7 @@ public class Review {
         this.content = content;
         this.mark = mark;
         this.addedBy = addedBy;
+        this.feedbacks = new LinkedList<>();
     }
 
     /**
@@ -42,9 +44,11 @@ public class Review {
     public String toString() {
         String temp = "";
         temp += "Contenu: " + this.content + ", Note: " + this.mark + ", Ajouté par: " + this.addedBy.getLogin();
-        temp += ", Feedbacks: ";
-        for (Feedback f : feedbacks) {
-            temp += f.toString() + ", ";
+        if (!feedbacks.isEmpty()) {
+            temp += ", Feedbacks: ";
+            for (Feedback f : feedbacks) {
+                temp += f.toString() + ", ";
+            }
         }
         return temp;
     }
