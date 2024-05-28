@@ -2,8 +2,6 @@ package opinion;
 
 import exceptions.BadEntryException;
 
-import java.lang.reflect.Member;
-
 import static java.lang.Math.abs;
 import static java.lang.Math.sqrt;
 
@@ -86,20 +84,27 @@ public class Members {
         return this.karma;
     }
 
+    /**
+     * Method to compute the coefficient for the karma update
+     * Coefficient is computed with the delta between the mark given and the mean of the mark (2.5 for marks over 5) plus one.
+     * Square root is used to smooth the coefficent (logarithmic growth)
+     *
+     * @param mark
+     * @return computed coefficient
+     */
     public float computeCoeff(float mark) {
-        float delta = 1;
+        float coeff = 1;
         if (mark > 2.5) {
-            delta = (float) sqrt(mark - 2.5 + 1);
+            coeff = (float) sqrt(mark - 2.5 + 1);
         } else if (mark < 2.5) {
-            delta = (float) (1 / sqrt(abs(mark - 2.5) + 1));
+            //The absolute value is used to avoid negative values
+            coeff = (float) (1 / sqrt(abs(mark - 2.5) + 1));
         }
-        return delta;
+        return coeff;
     }
 
     /**
      * Method to update the user karma by multiplying the karma by a computed coefficient
-     * Computed coefficient with the delta between the mark given and the mean of the mark (2.5 for marks over 5) plus one.
-     * Square root is used to smooth the coefficent (logarithmic growth)
      *
      * @param mark
      * @throws BadEntryException
@@ -108,8 +113,8 @@ public class Members {
         if ((mark > 5.0) || mark < 0) {
             throw new BadEntryException("La note doit être supérieure à 0 et inférieure ou égale à 5.0");
         }
-        this.karma *= 1 / computeCoeff(oldMark);
-        this.karma *= computeCoeff(mark);
+        this.karma *= 1 / computeCoeff(oldMark); //Remove the old mark coefficient
+        this.karma *= computeCoeff(mark); //Add the new mark coefficient
     }
 
     /**

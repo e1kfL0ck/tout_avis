@@ -48,7 +48,9 @@ public class Review {
             throw new BadEntryException("Added by can't be null");
         }
         int index = 0;
-        float oldMark = 2.5f;
+        //Mean value of the possible mark, used if no feedback is found
+        //2.5 will create a coefficeint of 1, not impacting the karma
+        float oldMark = 2.5f; 
         for (Feedback f : feedbacks) {
             if (f.addedBy.equals(addedBy)) {
                 oldMark = f.mark;
