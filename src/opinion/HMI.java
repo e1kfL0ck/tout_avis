@@ -556,7 +556,7 @@ public class HMI {
     public static void main(String[] args) {
 
         try {
-            ISocialNetwork sn = new SocialNetwork(); // the SocialNetwork to interact with
+            ISocialNetworkPremium sn = new SocialNetworkPremium(); // the SocialNetwork to interact with
 
             HMI ihm = new HMI();
             ihm.setTopic(sn);
@@ -595,7 +595,14 @@ public class HMI {
             // review a book that was already reviewed by the same member
             sn.reviewItemBook("Antoine", "antoine", "La Peste", 3.8f, "bien meilleur à la relecture");
 
-            System.out.println(sn);
+            sn.reviewOpinion("Paul", "paul", "La Peste", "Antoine", 4f);
+            sn.reviewOpinion("Paul", "paul", "La Peste", "Antoine", 2f);
+
+            sn.reviewOpinion("Paul", "paul", "La Peste", "Alice", 5f);
+
+
+
+//            System.out.println(sn);
         } catch (Exception e) {
             System.out.println("Exception inattendue : " + e);
             e.printStackTrace();
