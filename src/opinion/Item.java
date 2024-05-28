@@ -61,17 +61,14 @@ public class Item {
      */
     public void addReview(String content, float mark, Members addedBy) throws BadEntryException {
         int index = 0;
-        boolean found = false;
         for (Review r : reviews) {
             if (r.addedBy.equals(addedBy)) {
-                found = true;
                 reviews.set(index, new Review(content, addedBy, mark));
+                return;
             }
             index++;
         }
-        if (!found) {
-            reviews.add(new Review(content, addedBy, mark));
-        }
+        reviews.add(new Review(content, addedBy, mark));
     }
 
     /**
