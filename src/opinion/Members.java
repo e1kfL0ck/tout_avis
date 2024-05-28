@@ -108,6 +108,12 @@ public class Members {
         this.karma *= delta;
     }
 
+    /**
+     * Method to verify the login and password of the member
+     * 
+     * @param login    login of the member adding the review
+     * @param password password of the member adding the review
+     */
     public boolean login(String login, String password) throws BadEntryException {
         if (login == null || login.replace(" ", "").isEmpty()) {
             throw new BadEntryException("Format du login incorrect. Format: plus de 1 caractère (espaces non compris)");
