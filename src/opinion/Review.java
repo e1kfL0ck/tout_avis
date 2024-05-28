@@ -1,12 +1,14 @@
 package opinion;
 
 import exceptions.BadEntryException;
+import java.util.LinkedList;
 
 public class Review {
     // Class attribute
     protected String content;
     protected float mark;
     protected String addedBy;
+    protected LinkedList<Feedback> feedbacks;
 
     /**
      * Conctructor for the Review class
