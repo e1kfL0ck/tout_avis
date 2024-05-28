@@ -16,8 +16,8 @@ public class SocialNetwork implements ISocialNetwork {
     // Class attribute
     private int nbBooks;
     private int nbFilms;
-    private LinkedList<Members> members;
-    private LinkedList<Item> items;
+    protected LinkedList<Members> members;
+    protected LinkedList<Item> items;
 
     /**
      * Social network constructor

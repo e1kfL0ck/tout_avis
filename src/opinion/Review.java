@@ -37,6 +37,20 @@ public class Review {
     }
 
     /**
+     * Method to add a new feedback to the review
+     *
+     * @param addedBy
+     * @param mark
+     * @throws BadEntryException
+     */
+    public void addFeedback(String addedBy, float mark) throws BadEntryException {
+        if (addedBy == null) {
+            throw new BadEntryException("Added by can't be null");
+        }
+        this.feedbacks.add(new Feedback(addedBy, mark));
+    }
+
+    /**
      * toString function for Review class, return a fromatted string containing all attrubutes of the class
      *
      * @return String
