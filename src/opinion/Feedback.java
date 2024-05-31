@@ -18,6 +18,9 @@ public class Feedback {
         if ((mark > 5.0) || mark < 0) {
             throw new BadEntryException("La note doit être supérieure à 0 et inférieure ou égale à 5.0");
         }
+        if (addedBy == null) {
+            throw new BadEntryException("L'auteur ne peux pas être vide");
+        }
         this.addedBy = addedBy;
         this.mark = mark;
     }
