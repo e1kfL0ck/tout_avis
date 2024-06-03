@@ -140,6 +140,6 @@ public class Members {
      */
     public String toString() {
         // Custom toString method to show login and profile description of the object.
-        return "Nom utilisateur: " + getLogin() + ", Description du profil: " + getProfile() + ", Karma: " + getKarma();
+        return "Nom utilisateur: " + getLogin() + ", Description du profil: " + getProfile() + ", Karma: " + String.format("%.2f", getKarma());
     }
 }
