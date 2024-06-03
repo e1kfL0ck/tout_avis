@@ -249,16 +249,24 @@ public class ReviewItemFilmTest {
         nbErrors += ReviewFilmBadEntryTest(sn, "toto", "toto1234", "Inception", -5f, "Très bon livre", defaultMean, "6.4", "The user is able to post a review with a mark inferior to 5");
 
         nbTests++;
-        nbErrors += ReviewFilmBadEntryTest(sn, null, "toto1234", "Inception", -5f, "Très bon livre", defaultMean, "6.5", "ReviewItemFilm() doesn't reject null logins");
+        nbErrors += ReviewFilmBadEntryTest(sn, null, "toto1234", "Inception", 3.2F, "Très bon livre", defaultMean, "6.5", "ReviewItemFilm() doesn't reject null logins");
 
         nbTests++;
-        nbErrors += ReviewFilmBadEntryTest(sn, " ", "toto1234", "Inception", -5f, "Très bon livre", defaultMean, "6.6", "ReviewItemFilm() doesn't reject logins that don't contain at least one character other than space");
+        nbErrors += ReviewFilmBadEntryTest(sn, " ", "toto1234", "Inception", 3.2F, "Très bon livre", defaultMean, "6.6", "ReviewItemFilm() doesn't reject logins that don't contain at least one character other than space");
 
         nbTests++;
-        nbErrors += ReviewFilmBadEntryTest(sn, "toto", null, "Inception", -5f, "Très bon livre", defaultMean, "6.7", "ReviewItemFilm() doesn't reject null passwords");
+        nbErrors += ReviewFilmBadEntryTest(sn, "toto", null, "Inception", 3.2F, "Très bon livre", defaultMean, "6.7", "ReviewItemFilm() doesn't reject null passwords");
 
         nbTests++;
-        nbErrors += ReviewFilmBadEntryTest(sn, "toto", "pas ", "Inception", -5f, "Très bon livre", defaultMean, "6.8", "ReviewItemFilm() doesn't reject passwords that don't contain at least 4 characters (not taking into account leading or trailing blanks)");
+        nbErrors += ReviewFilmBadEntryTest(sn, "toto", "pas ", "Inception", 3.2F, "Très bon livre", defaultMean, "6.8", "ReviewItemFilm() doesn't reject passwords that don't contain at least 4 characters (not taking into account leading or trailing blanks)");
+
+        //Test with empty title
+        nbTests++;
+        nbErrors += ReviewFilmBadEntryTest(sn, "toto", "toto1234", "  ", 3.2F, "Très bon livre", defaultMean, "8.2", "The user is able to post a review with an empty title");
+
+        //Test with null title
+        nbTests++;
+        nbErrors += ReviewFilmBadEntryTest(sn, "toto", "toto1234", null, 3.2F, "Très bon livre", defaultMean, "8.3", "The user is able to post a review with a null title");
 
 
         // <=> test n°7
@@ -281,11 +289,11 @@ public class ReviewItemFilmTest {
 
         //Test with empty title
         nbTests++;
-        nbErrors += ReviewFilmNotItemTest(sn, "toto", "toto1234", "  ", 3.2F, "Très bon livre", defaultMean, "8.2", "The user is able to post a review with an empty title");
+        nbErrors += ReviewFilmNotItemTest(sn, "toto", "toto1234", "Pas bon", 3.2F, "Très bon livre", defaultMean, "8.2", "The user is able to post a review with an empty title");
 
         //Test with null title
         nbTests++;
-        nbErrors += ReviewFilmNotItemTest(sn, "toto", "toto1234", null, 3.2F, "Très bon livre", defaultMean, "8.3", "The user is able to post a review with a null title");
+        nbErrors += ReviewFilmNotItemTest(sn, "toto", "toto1234", "Coucou", 3.2F, "Très bon livre", defaultMean, "8.3", "The user is able to post a review with a null title");
 
 
         // Display final state of 'sn'

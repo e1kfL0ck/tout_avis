@@ -44,9 +44,12 @@ public class Item {
      * @param title
      * @return
      */
-    public boolean areYou(Class<?> c, String title) {
-        if (title == null || c == null) {
-            return false;
+    public boolean areYou(Class<?> c, String title) throws BadEntryException {
+        if (c == null) {
+            throw new BadEntryException("La classe entrée ne peut être vide");
+        }
+        if (title == null || title.replace(" ", "").isEmpty()) {
+            throw new BadEntryException("Titre ou classe entrée ne peut être vide");
         }
         return (c.isInstance(this) && title.equalsIgnoreCase(this.title));
     }

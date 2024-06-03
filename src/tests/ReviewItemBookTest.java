@@ -14,14 +14,14 @@ public class ReviewItemBookTest {
     /**
      * Tests the behavior of the {@code reviewItemBook} with nominal parameters.
      *
-     * @param sn      The social network instance.
-     * @param login   The login of the user.
-     * @param pwd     The password of the user.
-     * @param title   The title of the book.
-     * @param comment The comment of the review.
-     * @param mark    The mark of the review.
-     * @param defaultMean The mean of the book before the review.
-     * @param testId  The ID of the test.
+     * @param sn           The social network instance.
+     * @param login        The login of the user.
+     * @param pwd          The password of the user.
+     * @param title        The title of the book.
+     * @param comment      The comment of the review.
+     * @param mark         The mark of the review.
+     * @param defaultMean  The mean of the book before the review.
+     * @param testId       The ID of the test.
      * @param errorMessage The error message to display if the test fails.
      * @return 1 if the test fails, 0 otherwise.
      */
@@ -29,7 +29,7 @@ public class ReviewItemBookTest {
         float mean; //Number of Book when the method started
         try {
             mean = sn.reviewItemBook(login, pwd, title, mark, comment); // Try to add the review
-            if (mean != defaultMean ) {
+            if (mean != defaultMean) {
                 System.out.println(errorMessage);
                 System.out.println("Err " + testId + " : the mean (" + defaultMean + ") haven't changed"); // Error message displayed
                 return 1; // return error code
@@ -49,14 +49,14 @@ public class ReviewItemBookTest {
     /**
      * Tests the behavior of the {@code reviewItemBook} method when the user is not a member.
      *
-     * @param sn      The social network instance.
-     * @param login   The login of the user.
-     * @param pwd     The password of the user.
-     * @param title   The title of the book.
-     * @param comment The comment of the review.
-     * @param mark    The mark of the review.
-     * @param defaultMean The mean of the book before the review.
-     * @param testId  The ID of the test.
+     * @param sn           The social network instance.
+     * @param login        The login of the user.
+     * @param pwd          The password of the user.
+     * @param title        The title of the book.
+     * @param comment      The comment of the review.
+     * @param mark         The mark of the review.
+     * @param defaultMean  The mean of the book before the review.
+     * @param testId       The ID of the test.
      * @param errorMessage The error message to display if the test fails.
      * @return 1 if the test fails, 0 otherwise.
      */
@@ -69,7 +69,7 @@ public class ReviewItemBookTest {
         } catch (NotMemberException e) {
             try {
                 mean = sn.reviewItemBook("toto", "toto1234", "Tintin au Tibet", 4.9F, "Super BD !");
-                if (defaultMean==mean) {
+                if (defaultMean == mean) {
                     return 0;
                 } else {
                     System.out.println("Err " + testId + " : NotMemberException was thrown but the mean have changed");
@@ -89,19 +89,19 @@ public class ReviewItemBookTest {
     /**
      * Tests the behavior of the reviewItemBook() method when given incorrect parameters.
      *
-     * @param sn      The social network instance.
-     * @param login   The login of the user.
-     * @param pwd     The password of the user.
-     * @param title   The title of the book.
-     * @param comment The comment of the review.
-     * @param mark    The mark of the review.
-     * @param defaultMean The mean of the book before the review.
-     * @param testId  The ID of the test.
+     * @param sn           The social network instance.
+     * @param login        The login of the user.
+     * @param pwd          The password of the user.
+     * @param title        The title of the book.
+     * @param comment      The comment of the review.
+     * @param mark         The mark of the review.
+     * @param defaultMean  The mean of the book before the review.
+     * @param testId       The ID of the test.
      * @param errorMessage The error message to display if the test fails.
      * @return 1 if the test fails, 0 otherwise.
      */
-    private static int ReviewBookBadEntryTest(ISocialNetwork sn, String login, String pwd, 
-                String title, float mark, String comment, Float defaultMean, String testId, String errorMessage) {
+    private static int ReviewBookBadEntryTest(ISocialNetwork sn, String login, String pwd,
+                                              String title, float mark, String comment, Float defaultMean, String testId, String errorMessage) {
 
         float mean; // Number of books when starting to
         try {
@@ -114,7 +114,7 @@ public class ReviewItemBookTest {
             // Let's now check if 'sn' was not impacted
             try {
                 mean = sn.reviewItemBook("toto", "toto1234", "Tintin au Tibet", 4.9F, "Super BD !");
-                if (defaultMean==mean) {
+                if (defaultMean == mean) {
                     return 0; // Everything is fine : the mean have not changed
                 } else {
                     // The mean just changed, which is not the expected behavior
@@ -134,22 +134,22 @@ public class ReviewItemBookTest {
         }
     }
 
-        /**
+    /**
      * Tests the behavior of the reviewItemBook() method when the book does not exist.
      *
-     * @param sn      The social network instance.
-     * @param login   The login of the user.
-     * @param pwd     The password of the user.
-     * @param title   The title of the book.
-     * @param comment The comment of the review.
-     * @param mark    The mark of the review.
-     * @param defaultMean The mean of the book before the review.
-     * @param testId  The ID of the test.
+     * @param sn           The social network instance.
+     * @param login        The login of the user.
+     * @param pwd          The password of the user.
+     * @param title        The title of the book.
+     * @param comment      The comment of the review.
+     * @param mark         The mark of the review.
+     * @param defaultMean  The mean of the book before the review.
+     * @param testId       The ID of the test.
      * @param errorMessage The error message to display if the test fails.
      * @return 1 if the test fails, 0 otherwise.
      */
-    private static int ReviewBookNotItemTest(ISocialNetwork sn, String login, String pwd, 
-    String title, float mark, String comment, Float defaultMean, String testId, String errorMessage) {
+    private static int ReviewBookNotItemTest(ISocialNetwork sn, String login, String pwd,
+                                             String title, float mark, String comment, Float defaultMean, String testId, String errorMessage) {
         float mean; // Number of books when starting to
         try {
             mean = sn.reviewItemBook(login, pwd, title, mark, comment); // Try to add the review
@@ -161,7 +161,7 @@ public class ReviewItemBookTest {
             // Let's now check if 'sn' was not impacted
             try {
                 mean = sn.reviewItemBook("toto", "toto1234", "Tintin au Tibet", 4.9F, "Super BD !");
-                if (defaultMean==mean) {
+                if (defaultMean == mean) {
                     return 0; // Everything is fine : the mean have not changed
                 } else {
                     // The mean just changed, which is not the expected behavior
@@ -217,7 +217,7 @@ public class ReviewItemBookTest {
         nbTests++;
         nbErrors += ReviewItemBookTestNominal(sn, "toto", "toto1234", "Tintin au Congo", "Pas mal !", 4.2F, defaultMean, "1.2", "User is unable to post his first review on an existing book");
 
-        defaultMean = (4.9F+2.1F)/2;
+        defaultMean = (4.9F + 2.1F) / 2;
         nbTests++;
         nbErrors += ReviewItemBookTestNominal(sn, "emile", "emile1234", "Tintin au Tibet", "Pas trop aimé !", 2.1F, defaultMean, "1.3", "User is unable to post his first review on an existing book");
 
@@ -227,12 +227,11 @@ public class ReviewItemBookTest {
             nbErrors++;
         }
 
-        
 
         // <=> test n°2
         // Check if incorrect parameters cause addReview() to throw NotMemberException
 
-        defaultMean = (4.9F+2.1F)/2.0F;
+        defaultMean = (4.9F + 2.1F) / 2.0F;
         // Test to add a review with a wrong member password
         nbTests++;
         nbErrors += ReviewNotMemberTest(sn, "toto", "totodondojn", "Tintin au Tibet", 3.2F, "Très bon livre", defaultMean, "2.1", "The user is able to post a review with a wrong password");
@@ -257,16 +256,24 @@ public class ReviewItemBookTest {
         nbErrors += ReviewBookBadEntryTest(sn, "toto", "toto1234", "Tintin au Tibet", -5f, "Très bon livre", defaultMean, "3.4", "The user is able to post a review with a mark inferior to 5");
 
         nbTests++;
-        nbErrors += ReviewBookBadEntryTest(sn, null, "toto1234", "Tintin au Tibet", -5f, "Très bon livre", defaultMean, "3.5", "ReviewItemBook() doesn't reject null logins");
+        nbErrors += ReviewBookBadEntryTest(sn, null, "toto1234", "Tintin au Tibet", 3.2F, "Très bon livre", defaultMean, "3.5", "ReviewItemBook() doesn't reject null logins");
 
         nbTests++;
-        nbErrors += ReviewBookBadEntryTest(sn, " ", "toto1234", "Tintin au Tibet", -5f, "Très bon livre", defaultMean, "3.6", "ReviewItemBook() doesn't reject logins that don't contain at least one character other than space");
+        nbErrors += ReviewBookBadEntryTest(sn, " ", "toto1234", "Tintin au Tibet", 3.2F, "Très bon livre", defaultMean, "3.6", "ReviewItemBook() doesn't reject logins that don't contain at least one character other than space");
 
         nbTests++;
-        nbErrors += ReviewBookBadEntryTest(sn, "toto", null, "Tintin au Tibet", -5f, "Très bon livre", defaultMean, "3.7", "ReviewItemBook() doesn't reject null passwords");
+        nbErrors += ReviewBookBadEntryTest(sn, "toto", null, "Tintin au Tibet", 3.2F, "Très bon livre", defaultMean, "3.7", "ReviewItemBook() doesn't reject null passwords");
 
         nbTests++;
-        nbErrors += ReviewBookBadEntryTest(sn, "toto", "pas ", "Tintin au Tibet", -5f, "Très bon livre", defaultMean, "3.8", "ReviewItemBook() doesn't reject passwords that don't contain at least 4 characters (not taking into account leading or trailing blanks)");
+        nbErrors += ReviewBookBadEntryTest(sn, "toto", "pas ", "Tintin au Tibet", 3.2F, "Très bon livre", defaultMean, "3.8", "ReviewItemBook() doesn't reject passwords that don't contain at least 4 characters (not taking into account leading or trailing blanks)");
+
+        //Test with empty title
+        nbTests++;
+        nbErrors += ReviewBookBadEntryTest(sn, "toto", "toto1234", "  ", 3.2F, "Très bon livre", defaultMean, "4.2", "The user is able to post a review with an empty title");
+
+        //Test with null title
+        nbTests++;
+        nbErrors += ReviewBookBadEntryTest(sn, "toto", "toto1234", null, 3.2F, "Très bon livre", defaultMean, "4.3", "The user is able to post a review with a null title");
 
 
         // <=> test n°4
@@ -278,16 +285,16 @@ public class ReviewItemBookTest {
 
         //Test with empty title
         nbTests++;
-        nbErrors += ReviewBookNotItemTest(sn, "toto", "toto1234", "  ", 3.2F, "Très bon livre", defaultMean, "4.2", "The user is able to post a review with an empty title");
+        nbErrors += ReviewBookNotItemTest(sn, "toto", "toto1234", "Coucou", 3.2F, "Très bon livre", defaultMean, "4.2", "The user is able to post a review with an empty title");
 
         //Test with null title
         nbTests++;
-        nbErrors += ReviewBookNotItemTest(sn, "toto", "toto1234", null, 3.2F, "Très bon livre", defaultMean, "4.3", "The user is able to post a review with a null title");
+        nbErrors += ReviewBookNotItemTest(sn, "toto", "toto1234", "test", 3.2F, "Très bon livre", defaultMean, "4.3", "The user is able to post a review with a null title");
 
 
         // <=> test n°5
         // Check if incorrect newer reviews replaces the older ones
-        defaultMean = (4.9F+4.9F)/2;
+        defaultMean = (4.9F + 4.9F) / 2;
         nbTests++;
         nbErrors += ReviewItemBookTestNominal(sn, "emile", "emile1234", "Tintin au Tibet", "Finalement j'aime bien", 4.9F, defaultMean, "5.1", "User is unable to post his second review on an existing book");
 
