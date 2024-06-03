@@ -38,7 +38,7 @@ public class SocialNetworkPremium extends SocialNetwork implements ISocialNetwor
             throw new NotReviewException("Review non trouvée");
         }
         for (Members m : members) {
-            if (m.areYou(foundReview.addedBy.getLogin())) {
+            if (m.areYou(reviewAuthor)) {
                 // Update the user karma with the new mark, will remove the oldMark coeff (if first opinion, coeff is 1) and apply the new one.
                 m.updateKarma(mark, oldMark);
                 break;
