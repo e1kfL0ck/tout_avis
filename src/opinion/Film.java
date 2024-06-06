@@ -56,7 +56,7 @@ public class Film extends Item {
         concatenedString.append(this.scenarist);
         if (!Float.isNaN(getMeanMark())) {
             concatenedString.append(", Note (Moyenne): ");
-            concatenedString.append(getMeanMark());
+            concatenedString.append(String.format("%.2f", getMeanMark()));
         }
         concatenedString.append(", Ajouté par: ");
         concatenedString.append(this.addedBy);

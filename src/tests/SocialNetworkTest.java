@@ -27,7 +27,20 @@ public class SocialNetworkTest {
             //
             // TODO : calls to other tests have to be added from here
             //
+            tr = AddItemBookTest.test();
+            testSuiteReport.add(tr);
 
+            tr = AddItemFilmTest.test();
+            testSuiteReport.add(tr);
+
+            tr = ConsultItemBookTest.test();
+            testSuiteReport.add(tr);
+
+            tr = ReviewItemBookTest.test();
+            testSuiteReport.add(tr);
+
+            tr = ReviewItemFilmTest.test();
+            testSuiteReport.add(tr);
 
             // End of the test suite : give some feedback to the tester
             System.out.println("Global tests results :   \n" + testSuiteReport);

@@ -49,7 +49,7 @@ public class Book extends Item {
         concatenedString.append(this.nbPages);
         if (!Float.isNaN(getMeanMark())) {
             concatenedString.append(", Note (Moyenne): ");
-            concatenedString.append(getMeanMark());
+            concatenedString.append(String.format("%.2f", getMeanMark()));
         }
         concatenedString.append(", Ajouté par: ");
         concatenedString.append(this.addedBy);

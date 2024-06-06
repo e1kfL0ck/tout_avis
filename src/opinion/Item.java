@@ -44,9 +44,12 @@ public class Item {
      * @param title
      * @return
      */
-    public boolean areYou(Class<?> c, String title) {
-        if (title == null || c == null) {
-            return false;
+    public boolean areYou(Class<?> c, String title) throws BadEntryException {
+        if (c == null) {
+            throw new BadEntryException("La classe entrée ne peut être vide");
+        }
+        if (title == null || title.replace(" ", "").isEmpty()) {
+            throw new BadEntryException("Titre ou classe entrée ne peut être vide");
         }
         return (c.isInstance(this) && title.equalsIgnoreCase(this.title));
     }
@@ -59,32 +62,31 @@ public class Item {
      * @param addedBy
      * @throws BadEntryException
      */
-    public void addReview(String content, float mark, String addedBy) throws BadEntryException {
+    public void addReview(String content, float mark, Members addedBy) throws BadEntryException {
         int index = 0;
-        boolean found = false;
         for (Review r : reviews) {
             if (r.addedBy.equals(addedBy)) {
-                found = true;
                 reviews.set(index, new Review(content, addedBy, mark));
+                return;
             }
             index++;
         }
-        if (!found) {
-            reviews.add(new Review(content, addedBy, mark));
-        }
+        reviews.add(new Review(content, addedBy, mark));
     }
 
     /**
-     * Method to compute the mean of all marks leaved in review of the Item.
+     * Method to compute the mean of all marks leaved in review of the Item pondered with the user (that leaved the mark) karma.
      *
      * @return float
      */
     public float getMeanMark() {
         float result = 0;
+        float coeffSum = 0;
         for (Review r : reviews) {
-            result += r.mark;
+            result += r.mark * r.addedBy.getKarma();
+            coeffSum += r.addedBy.getKarma();
         }
-        return result / reviews.size();
+        return result / coeffSum;
     }
 
     /**
@@ -95,10 +97,13 @@ public class Item {
     public String getReviews() {
         StringBuilder concatenedString = new StringBuilder();
         concatenedString.append("\n------------------------------ Avis ------------------------\n");
+        int i = 1;
         if (!reviews.isEmpty()) {
             for (Review r : reviews) {
+                concatenedString.append("Avis ").append(i).append(": ");
                 concatenedString.append(r);
                 concatenedString.append("\n");
+                i++;
             }
         } else {
             concatenedString.append("Pas d'avis");
@@ -120,7 +125,7 @@ public class Item {
         concatenedString.append(this.kind);
         if (!Float.isNaN(getMeanMark())) {
             concatenedString.append(", Note (Moyenne): ");
-            concatenedString.append(getMeanMark());
+            concatenedString.append(String.format("%.2f", getMeanMark()));
         }
         concatenedString.append(", Ajouté par: ");
         concatenedString.append(this.addedBy);
